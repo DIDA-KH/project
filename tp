@@ -1,0 +1,289 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+int verif_rest(int , int );
+int Dec_to_base(int , int );
+int to_dec (int ,int );
+void dec_hex(int );
+void hex_dec(char hex[] );
+//function that check if the number is from the base
+//-----------------function-that-check-if-the-entered-number-is-under-the-base-or-no--------------------------
+int verif_rest(int number,int base)
+{
+    int r,v;
+    r=0;
+    do{
+        if ((number%10)>=base){
+            r=r+1;}
+            number=number/10;
+    }while(number>0);
+    if (r==0){v=1;}
+    else{v=0;}
+    return v;
+}
+//-------------function that convert from decimal to any base under the decimal what we need from this function is the base 2 and 8--------------
+int Dec_to_base(int base , int n) {
+int num=0;
+int q=n,r;
+int i;
+while (q!=0) {
+    r=q%base;
+    q=q/base;
+    num=num+(r*pow(10,i));
+    i++;
+}
+return num;}
+
+//-----------------------------------------function that convert from any base to decimal-------------------------------------------------------
+int to_dec (int b,int nbr)
+{
+    int i,deci,nmbr;
+    deci=0;
+    nmbr=nbr;
+    i=0;
+    do
+    {   deci=deci+((nmbr%10)*pow(b,i));
+        i++;
+        nmbr=nmbr/10;}while (nmbr>0);
+ return deci;
+}
+
+//-----------------------------------------function that convert from decimal to hexadecimal---------------------------------------------------
+void dec_hex(int num)
+{   int temp,rem,i=1,j;
+    char hexa[50];
+    temp=num;
+    while(temp!=0) {
+        rem=temp%16;
+        if (rem<10) {
+            rem=rem+48;
+        }
+        else
+            rem=rem+55;
+        hexa[i++]=rem;
+        temp=temp/16;}
+    printf(" *the number in hexadecimal is :");
+    for  (j=i-1;j>0;j--){
+        printf("%c",hexa[j]);
+    }
+    return 0;
+}
+//---------------------------------------------function that convert from hexadecimal to decimal---------------------------------------------------------
+void hex_dec(char hex[])
+{
+    int decimal = 0, base = 1;
+    int i = 0, length;
+    length = strlen(hex);
+    for(i = length-1; i >= 0; i--)
+    {
+        if(hex[i] >= '0' && hex[i] <= '9')
+        {decimal = decimal +(hex[i] - 48) * base;
+            base =base * 16;}
+        else if(hex[i] >= 'A' && hex[i] <= 'F')
+        {   decimal = decimal +(hex[i] - 55) * base;
+            base = base* 16;}
+        else if(hex[i] >= 'a' && hex[i] <= 'f')
+        {  decimal = decimal +(hex[i] - 87) * base;
+            base =base * 16;}
+    }
+    printf(" *Decimal number = %d\n", decimal);
+    return 0;
+}
+//-----------function that check the entered number if it is under the base----------------------
+int v(char c[])
+{
+    int k,i,j;
+    j=0;
+    for(i=0;i<strlen(c);i++)
+    {
+    if((c[i]>='0'&&c[i]<='9')||(c[i]>='A' && c[i]<='F')||(c[i]>='a' && c[i]<='f'))
+        {j=j+1;}
+    }
+    if (j==strlen(c)){
+        k=1;
+    }
+    else{k=0;}
+    return k;
+}
+
+int main()
+{
+    char hx[50];
+    int h,dec_16,dec_2,nn,dec_8,q,b_start,b_finish;
+    printf("* Mini Project (2024/2025) *");
+    printf("\n Section : B");
+    printf("\n Group : 09");
+    printf("\n mumbers's full names:");
+    printf("\n - Khaled Mohamed Redha.");
+    printf("\n - Khenter Fadi.\n");
+    printf("\n");
+
+    printf(" *This program can convert : \n");
+    printf("     * base 10 --> base 2\n");
+    printf("     * base 10 --> base 8\n");
+    printf("     * base 10 --> base 16\n");
+    printf("     * base 16 --> base 2\n");
+    printf("     * base 16 --> base 8\n");
+    printf("     * base 16 --> base 10\n");
+    printf("     * base 8 --> base 2\n");
+    printf("     * base 8 --> base 16\n");
+    printf("     * base 8 --> base 10\n");
+    printf("     * base 2 --> base 16\n");
+    printf("     * base 2 --> base 8\n");
+    printf("     * base 2 --> base 10\n");
+
+    do{//this do loop repeat the conversion if the user  tap 1
+           do{ // this do loop verif if the starting base is entre the bases while the program can convert
+    printf("\n *Enter the base of the number : ");//display the message that ask the base of number entered
+    scanf("%d",&b_start);
+           }while((b_start!=10) && (b_start!=16) && (b_start!=8) && (b_start!=2));//la boucle va entrer dans l'instruction suivante si et seulement si la base entr�e est 8/2/10/16
+    switch(b_start){
+        //-----the base 10 is the starting base-----------------------------------------------------
+    case 10 :{
+    do{printf(" *Enter the base that you wanna convert to : "); // you want to entre the base 2 or 10 or 8 or 16
+    scanf("%d",&b_finish);}while((b_finish!=10) && (b_finish!=16) && (b_finish!=8) && (b_finish!=2));
+                switch (b_finish){
+                case 10 :{
+                     printf("\n *Enter the number : ");
+                     scanf("%d",&nn);
+                     printf("\n *The number in base %d is %d \n",b_finish,nn);};break;//if the user entre a number of the same base
+                case 16 :{
+                    printf("\n *Enter the number : ");
+                    scanf("%d",&nn);
+                    dec_hex(nn);}
+                    break;//call to the function dec_hex that convert a numbre in the starting base 10 to the 16
+                case 2 :{
+                     printf("\n *Enter the number :");
+                     scanf("%d",&nn);
+                     printf("\n *The number in base %d is %d \n",b_finish, Dec_to_base(b_finish,nn));};break;//call to the  function dec_to_base for convert a numbre in the base 10 to the base 2
+                case 8 :{
+                     printf("\n *Enter the number :");
+                     scanf("%d",&nn);
+                     printf("\n *The number in base %d is %d \n",b_finish, Dec_to_base(b_finish,nn));};break;//call to the function dec_to_base for convert a numbre in the base 10 to the base 8
+                                 };break;
+             };break;
+        //-----the base 16 is the starting-----------------------------------------------------
+    case 16 :{
+   do{printf(" *Enter the base that you wanna convert to : ");
+    scanf("%d",&b_finish);}while((b_finish!=10) && (b_finish!=16) && (b_finish!=8) && (b_finish!=2));
+                switch (b_finish){
+                case 10 :{
+                    do{
+                    printf("\n *Enter the number :");
+                    scanf("%s",&hx);
+                    }while(v(hx)==0);//call to the function v for verifiying if the characters entre without to the base 16 or no if it return 1 it will jump to the next function
+                    hex_dec(hx);}break;//call to the function hh that convert a numbre to the base 16 to the base 10
+                case 16 :{
+                    do{
+                    printf("\n *Enter the number :");
+                    scanf("%s",&hx);
+                    }while(v(hx)==0);
+                    printf("\n *The number in hexadecimal is %s\n",hx);};break;
+                case 2 :{
+                    do{
+                    printf("\n *Enter the number :");
+                    scanf("%s",&hx);
+                    }while(v(hx)==0);
+
+
+                    printf("\n *The number in base 2 is %d \n",Dec_to_base(2,(hx)));
+
+                };break;
+                case 8 :{
+               do{
+                    printf("\n *Enter the number :");
+                    scanf("%s",&hx);
+                    }while(v(hx)==0);
+                    printf("\n *The number in base 10 is %d \n",nn);
+                    h=Dec_to_base(8,nn);
+                    printf("\n *The number in base 8 is %d \n",h);
+                };break;
+                };break;
+                };break;
+        //-----the base 8 is the starting base------------------------------------------------------
+    case 8 :{
+        do{printf(" *Enter the base that you wanna convert to : ");
+    scanf("%d",&b_finish);}while((b_finish!=10) && (b_finish!=16) && (b_finish!=8) && (b_finish!=2));
+                switch (b_finish){
+                case 10 :{
+                do{
+                          printf("\n *Enter the number :");
+                          scanf("%d",&nn);
+                          }while(verif_rest(nn,8)!=1);
+                printf("\n *The number in decimal is %d \n", to_dec(8,nn));
+                };break;
+                case 16 :{
+                 do{
+                          printf("\n *Enter the number :");
+                          scanf("%d",&nn);
+                          }while(verif_rest(nn,8)!=1);
+                     dec_8=to_dec(8,nn);
+                     dec_hex(dec_8);
+                };break;
+                case 2 :{
+                            do{
+                          printf("\n Enter the number :");
+                          scanf("%d",&nn);
+                          }while(verif_rest(nn,8)!=1);
+                      dec_8=to_dec(8,nn);
+                      printf("\n The number in base %d is %d \n",b_finish, Dec_to_base(b_finish,dec_8));
+                };break;
+                case 8 :{
+                      do{
+                          printf("\n *Enter the number :");
+                          scanf("%d",&nn);
+                          }while(verif_rest(nn,8)!=1);
+                printf("\n *The number in %d is %d \n",b_finish, nn);
+                };break;
+                };break;
+                };break;
+        //-----the base 8 is the starting base------------------------------------------------------
+    case 2 :{
+     do{printf(" *Enter the base that you wanna convert to : ");
+    scanf("%d",&b_finish);}while((b_finish!=10) && (b_finish!=16) && (b_finish!=8) && (b_finish!=2));
+                switch (b_finish){
+                case 10 :{
+                    do{
+                          printf("\n *Enter the number :");
+                          scanf("%d",&nn);
+                          }while(verif_rest(nn,2)!=1);
+                          printf("\n *The number in decimal is %d \n", to_dec(2,nn));
+                };break;
+                case 16 :{
+                      do{
+                          printf("\n *Enter the number :");
+                          scanf("%d",&nn);
+                          }while(verif_rest(nn,2)!=1);
+                          printf("\n *The number in decimal is %d \n", to_dec(2,nn));
+                      dec_2=to_dec(2,nn);
+                      dec_hex(dec_2);
+
+                };break;
+                case 2 :{
+                          do{
+                          printf("\n *Enter the number :");
+                          scanf("%d",&nn);
+                          }while(verif_rest(nn,2)!=1);
+                          printf("\n *The number in decimal is %d \n", to_dec(2,nn));
+                          printf("\n *The number in decimal is %d \n", nn);
+                };break;
+                case 8 :{
+                      do{
+                          printf("\n *Enter the number :");
+                          scanf("%d",&nn);
+                          }while(verif_rest(nn,2)!=1);
+                          printf("\n *The number in decimal is %d \n", to_dec(2,nn));
+                      dec_2=to_dec(2,nn);
+                      printf("\n *The number in base %d is %d \n",b_finish, Dec_to_base(b_finish,dec_2));
+
+                };break;
+                };break;
+                };break;
+
+    }                printf("\n *If you want convert again tap 1 ,else tap any character: \n");
+                scanf("%d",&q);}while(q==1);
+    return 0;
+}
+
+
